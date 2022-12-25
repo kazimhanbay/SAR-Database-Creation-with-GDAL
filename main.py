@@ -74,8 +74,8 @@ if __name__ == '__main__':
 
     output_jpg = input("What would you like to name JPEG? ")
     convert_tiff_to_jpg(output_name, output_jpg)
-    #create_folder(output_name)
-    #crop(output_name)
+    create_folder(output_jpg)
+    crop(output_jpg)
 
     elapsed_time = int(float(time.time() - start_time))
     print(f"It took {elapsed_time} seconds to run")
