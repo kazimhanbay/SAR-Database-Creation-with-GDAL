@@ -22,6 +22,19 @@ The script requires the following packages to be installed:
 
 * `time`: This package provides functions for working with time, such as measuring elapsed time.
 
+### Options
+
+The script uses the following options to convert the TIFF image to a JPEG image:
+
+   * -ot Byte: specifies the output data type as Byte (8-bit unsigned integer).
+   * -of JPEG: specifies the output format as JPEG.
+   * -b 1: specifies that band 1 (the grayscale band) should be included in the output image.
+   * -b 2: specifies that band 2 (the green band) should be included in the output image.
+   * -b 3: specifies that band 3 (the blue band) should be included in the output image.
+   * -co QUALITY=100: sets the JPEG quality to 100%.
+   * -outsize 24000 16000: sets the output image size to 24000x16000 pixels.
+   * scale: sets the scale factor for the pixel values. The default is 1.0, but you can change this value to adjust the brightness and contrast of the output image.
+
 
 
 ### Usage
