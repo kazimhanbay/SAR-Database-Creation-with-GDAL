@@ -61,11 +61,11 @@ def create_folder(folder_name):
         os.makedirs(path)
 
 
-def crop(output_jpg):
+def crop(picture_name, output_jpg):
     img = cv2.imread(f"{output_jpg}.jpg")
     for r in range(0, img.shape[0], 800):
         for c in range(0, img.shape[1], 800):
-            cv2.imwrite(f"{output_jpg}\\img{r}_{c}.jpg",
+            cv2.imwrite(f"{output_jpg}\\{picture_name}_{r}_{c}.jpg",
                         img[r:r + 800, c:c + 800, :])
 
 
@@ -94,7 +94,7 @@ if __name__ == '__main__':
         convert_tiff_to_tree_band(picture_name, output_name)
         convert_tiff_to_jpg(output_name, output_jpg)
         create_folder(output_jpg)
-        crop(output_jpg)
+        crop(picture_name, output_jpg)
 
     # Timer
     elapsed_time = int(float(time.time() - start_time))
