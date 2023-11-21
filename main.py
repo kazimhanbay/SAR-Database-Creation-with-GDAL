@@ -68,6 +68,10 @@ def crop(picture_name, output_jpg):
             cv2.imwrite(f"{output_jpg}\\{picture_name}_{r}_{c}.jpg",
                         img[r:r + 800, c:c + 800, :])
 
+def timer():
+    elapsed_time = int(float(time.time() - start_time))
+    print(f"It took {elapsed_time} seconds to run")
+
 
 if __name__ == '__main__':
     start_time = time.time()
@@ -97,5 +101,4 @@ if __name__ == '__main__':
         crop(picture_name, output_jpg)
 
     # Timer
-    elapsed_time = int(float(time.time() - start_time))
-    print(f"It took {elapsed_time} seconds to run")
+    timer()
