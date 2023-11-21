@@ -10,11 +10,10 @@ This command uses the following options:
     -b 1 specifies that band 1 (the grayscale band) should be included in the output image.
     -colorinterp gray specifies that the color table should be interpreted as a grayscale ramp.
     -expand rgb specifies that the output image should be a true color image with 3 bands (red, green, and blue).
-
     NOTE: This command will convert the TIFF image to a JPEG image with 3 bands, each with 8-bit depth, 
     resulting in a total of 3 x 8 = 24 bits per pixel. The color table will be interpreted as a grayscale ramp, 
     which will be used to map the pixel values in the input image to colors in the output image.
-    
+
     Python Version: 3.11
     GDAL Version: 3.4.3
 '''
@@ -30,8 +29,8 @@ def convert_tiff_to_tree_band(picture_name, output_name):
     options_string = " ".join(options_list)
 
     # Set the file path
-    input_path = f"C:\\Users\\example\\example\\example\\{picture_name}.tiff"
-    output_path = f"C:\\Users\\example\\example\\example\\{output_name}.tiff"
+    input_path = f"C:\\Users\\ozdet\\PycharmProjects\\pythonProject4\\{picture_name}.tiff"
+    output_path = f"C:\\Users\\ozdet\\PycharmProjects\\pythonProject4\\{output_name}.tiff"
 
     gdal.Translate(output_path, input_path, options=options_string)
 
@@ -73,18 +72,30 @@ def crop(output_jpg):
 if __name__ == '__main__':
     start_time = time.time()
 
-    picture_name = input("What is the TIFF picture name? ")
+    while True:
+        picture_names = input("Enter the TIFF picture names separated by commas: ").split(',')
+
+        # Remove leading/trailing whitespace from each picture name
+        picture_names = [name.strip() for name in picture_names]
+
+        # Check if all input files exist
+        all_files_exist = all(os.path.isfile(f"C:\\Users\\ozdet\\PycharmProjects\\pythonProject4\\{name}.tiff") for name in picture_names)
+
+        if all_files_exist:
+            break
+        else:
+            print("One or more image names are incorrect, please enter again.")
 
     # Automated naming of output files
-    output_name = f"{picture_name}ConvertTo3BandTiff"
-    output_jpg = f"{picture_name}LastJPGV"
+    for picture_name in picture_names:
+        output_name = f"{picture_name}ConvertTo3BandTiff"
+        output_jpg = f"{picture_name}LastJPGV"
 
-    convert_tiff_to_tree_band(picture_name, output_name)
-    convert_tiff_to_jpg(output_name, output_jpg)
-    create_folder(output_jpg)
-    crop(output_jpg)
-    
-    #Timer
+        convert_tiff_to_tree_band(picture_name, output_name)
+        convert_tiff_to_jpg(output_name, output_jpg)
+        create_folder(output_jpg)
+        crop(output_jpg)
+
+    # Timer
     elapsed_time = int(float(time.time() - start_time))
     print(f"It took {elapsed_time} seconds to run")
-
