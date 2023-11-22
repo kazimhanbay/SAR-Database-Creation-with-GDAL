@@ -19,7 +19,7 @@ This command uses the following options:
 '''
 
 
-def convert_tiff_to_tree_band(picture_name, output_name):
+def convert_tiff_to_three_band(picture_name, output_name, base_path):
     options_list = [
         '-ot UInt16',
         '-b 1',
@@ -28,14 +28,26 @@ def convert_tiff_to_tree_band(picture_name, output_name):
     ]
     options_string = " ".join(options_list)
 
-    # Set the file path
-    input_path = f"C:\\Users\\ozdet\\PycharmProjects\\pythonProject4\\{picture_name}.tiff"
-    output_path = f"C:\\Users\\ozdet\\PycharmProjects\\pythonProject4\\{output_name}.tiff"
+    input_path = os.path.join(base_path, f"{picture_name}.tiff")
+    output_path = os.path.join(base_path, f"{output_name}.tiff")
 
     gdal.Translate(output_path, input_path, options=options_string)
 
+def preprocess_image(image_path):
+    image = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
 
-def convert_tiff_to_jpg(output_name, output_jpg):
+    denoised = cv2.GaussianBlur(image, (5, 5), 0)
+
+    if len(denoised.shape) == 2:
+        equalized = cv2.equalizeHist(denoised)
+    else:
+        equalized = cv2.cvtColor(denoised, cv2.COLOR_BGR2YCrCb)
+        equalized[:, :, 0] = cv2.equalizeHist(equalized[:, :, 0])
+        equalized = cv2.cvtColor(equalized, cv2.COLOR_YCrCb2BGR)
+
+    return equalized
+
+def convert_tiff_to_jpg(output_name, output_jpg, base_path):
     scale = "65535"
     options_list = [
         '-ot Byte',
@@ -49,56 +61,52 @@ def convert_tiff_to_jpg(output_name, output_jpg):
     ]
     options_string = " ".join(options_list)
 
-    input_path = f"{output_name}.tiff"
-    output_path = f"{output_jpg}.jpg"
+    input_path = os.path.join(base_path, f"{output_name}.tiff")
+    output_path = os.path.join(base_path, f"{output_jpg}.jpg")
 
     gdal.Translate(output_path, input_path, options=options_string)
 
+    # Ön işleme
+    processed_image = preprocess_image(output_path)
+    cv2.imwrite(output_path, processed_image)
 
-def create_folder(folder_name):
-    path = f"{folder_name}"
+def create_folder(folder_name, base_path):
+    path = os.path.join(base_path, folder_name)
     if not os.path.exists(path):
         os.makedirs(path)
 
+def crop(picture_name, output_jpg, base_path):
+    img_path = os.path.join(base_path, f"{output_jpg}.jpg")
+    img = cv2.imread(img_path)
+    crop_folder = os.path.join(base_path, output_jpg)
 
-def crop(picture_name, output_jpg):
-    img = cv2.imread(f"{output_jpg}.jpg")
     for r in range(0, img.shape[0], 800):
         for c in range(0, img.shape[1], 800):
-            cv2.imwrite(f"{output_jpg}\\{picture_name}_{r}_{c}.jpg",
-                        img[r:r + 800, c:c + 800, :])
+            crop_path = os.path.join(crop_folder, f"{picture_name}_{r}_{c}.jpg")
+            cv2.imwrite(crop_path, img[r:r + 800, c:c + 800, :])
 
-def timer():
-    elapsed_time = int(float(time.time() - start_time))
-    print(f"It took {elapsed_time} seconds to run")
-
+def timer(start_time):
+    elapsed_time = time.time() - start_time
+    print(f"It took {elapsed_time:.2f} seconds to run")
 
 if __name__ == '__main__':
     start_time = time.time()
 
-    while True:
-        picture_names = input("Enter the TIFF picture names separated by commas: ").split(',')
+    base_path = "C:\\Users\\ozdet\\PycharmProjects\\pythonProject4"
+    picture_names = input("Enter the TIFF picture names separated by commas: ").split(',')
+    picture_names = [name.strip() for name in picture_names]
 
-        # Remove leading/trailing whitespace from each picture name
-        picture_names = [name.strip() for name in picture_names]
-
-        # Check if all input files exist
-        all_files_exist = all(os.path.isfile(f"C:\\Users\\ozdet\\PycharmProjects\\pythonProject4\\{name}.tiff") for name in picture_names)
-
-        if all_files_exist:
-            break
-        else:
-            print("One or more image names are incorrect, please enter again.")
-
-    # Automated naming of output files
     for picture_name in picture_names:
+        if not os.path.isfile(os.path.join(base_path, f"{picture_name}.tiff")):
+            print(f"Image not found: {picture_name}.tiff")
+            continue
+
         output_name = f"{picture_name}ConvertTo3BandTiff"
         output_jpg = f"{picture_name}LastJPGV"
 
-        convert_tiff_to_tree_band(picture_name, output_name)
-        convert_tiff_to_jpg(output_name, output_jpg)
-        create_folder(output_jpg)
-        crop(picture_name, output_jpg)
+        convert_tiff_to_three_band(picture_name, output_name, base_path)
+        convert_tiff_to_jpg(output_name, output_jpg, base_path)
+        create_folder(output_jpg, base_path)
+        crop(picture_name, output_jpg, base_path)
 
-    # Timer
-    timer()
+    timer(start_time)
