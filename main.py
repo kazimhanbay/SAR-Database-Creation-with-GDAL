@@ -33,19 +33,6 @@ def convert_tiff_to_three_band(picture_name, output_name, base_path):
 
     gdal.Translate(output_path, input_path, options=options_string)
 
-def preprocess_image(image_path):
-    image = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
-
-    denoised = cv2.GaussianBlur(image, (5, 5), 0)
-
-    if len(denoised.shape) == 2:
-        equalized = cv2.equalizeHist(denoised)
-    else:
-        equalized = cv2.cvtColor(denoised, cv2.COLOR_BGR2YCrCb)
-        equalized[:, :, 0] = cv2.equalizeHist(equalized[:, :, 0])
-        equalized = cv2.cvtColor(equalized, cv2.COLOR_YCrCb2BGR)
-
-    return equalized
 
 def convert_tiff_to_jpg(output_name, output_jpg, base_path):
     scale = "65535"
@@ -66,17 +53,21 @@ def convert_tiff_to_jpg(output_name, output_jpg, base_path):
 
     gdal.Translate(output_path, input_path, options=options_string)
 
-    processed_image = preprocess_image(output_path)
-    cv2.imwrite(output_path, processed_image)
 
 def create_folder(folder_name, base_path):
     path = os.path.join(base_path, folder_name)
     if not os.path.exists(path):
         os.makedirs(path)
 
+
 def crop(picture_name, output_jpg, base_path):
     img_path = os.path.join(base_path, f"{output_jpg}.jpg")
     img = cv2.imread(img_path)
+
+    if img is None:
+        print(f"Error: Unable to load image at {img_path}")
+        return
+
     crop_folder = os.path.join(base_path, output_jpg)
 
     for r in range(0, img.shape[0], 800):
@@ -84,9 +75,11 @@ def crop(picture_name, output_jpg, base_path):
             crop_path = os.path.join(crop_folder, f"{picture_name}_{r}_{c}.jpg")
             cv2.imwrite(crop_path, img[r:r + 800, c:c + 800, :])
 
+
 def timer(start_time):
     elapsed_time = time.time() - start_time
     print(f"It took {elapsed_time:.2f} seconds to run")
+
 
 if __name__ == '__main__':
     start_time = time.time()
