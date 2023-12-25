@@ -35,7 +35,7 @@ def convert_tiff_to_three_band(picture_name, output_name, base_path):
 
 
 def convert_tiff_to_jpg(output_name, output_jpg, base_path):
-    scale = "65535"
+    #scale = "65535"
     options_list = [
         '-ot Byte',
         '-of JPEG',
@@ -44,7 +44,7 @@ def convert_tiff_to_jpg(output_name, output_jpg, base_path):
         '-b 3',
         '-co QUALITY=100',
         '-outsize 24000 16000',
-        scale,
+        '-scale 65535',
     ]
     options_string = " ".join(options_list)
 
