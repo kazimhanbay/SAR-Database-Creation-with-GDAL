@@ -4,16 +4,6 @@ import os
 import time
 
 ''' 
-This command uses the following options:
-    -of JPEG specifies the output format as JPEG.
-    -ot Byte specifies the output data type as Byte (8-bit unsigned integer).
-    -b 1 specifies that band 1 (the grayscale band) should be included in the output image.
-    -colorinterp gray specifies that the color table should be interpreted as a grayscale ramp.
-    -expand rgb specifies that the output image should be a true color image with 3 bands (red, green, and blue).
-    NOTE: This command will convert the TIFF image to a JPEG image with 3 bands, each with 8-bit depth, 
-    resulting in a total of 3 x 8 = 24 bits per pixel. The color table will be interpreted as a grayscale ramp, 
-    which will be used to map the pixel values in the input image to colors in the output image.
-
     Python Version: 3.11
     GDAL Version: 3.4.3
 '''
@@ -35,7 +25,6 @@ def convert_tiff_to_three_band(picture_name, output_name, base_path):
 
 
 def convert_tiff_to_jpg(output_name, output_jpg, base_path):
-    #scale = "65535"
     options_list = [
         '-ot Byte',
         '-of JPEG',
