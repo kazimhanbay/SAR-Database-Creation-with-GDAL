@@ -4,6 +4,9 @@
 
 This script converts a TIFF image to a 3-band TIFF image and then to a JPEG image, and crops the JPEG image into 800x800 pixel squares.
 
+<p align="center">
+  <img src="https://github.com/tburakozdemir/TIFF-to-JPEG-Converter-and-Cropper/assets/54362580/9c7bcce6-9bc4-443d-9414-b9ab58bd6d3f" style="border-radius: 50px;">
+</p>
 
 
 ### Dependencies
@@ -22,82 +25,72 @@ The script requires the following packages to be installed:
 
 * `time`: This package provides functions for working with time, such as measuring elapsed time.
 
-### Options
-
-The script uses the following options to convert the TIFF image to a JPEG image:
-
-   * -ot Byte: specifies the output data type as Byte (8-bit unsigned integer).
-   * -of JPEG: specifies the output format as JPEG.
-   * -b 1: specifies that band 1 (the grayscale band) should be included in the output image.
-   * -b 2: specifies that band 2 (the green band) should be included in the output image.
-   * -b 3: specifies that band 3 (the blue band) should be included in the output image.
-   * -co QUALITY=100: sets the JPEG quality to 100%.
-   * -outsize 24000 16000: sets the output image size to 24000x16000 pixels.
-   * scale: sets the scale factor for the pixel values. The default is 1.0, but you can change this value to adjust the brightness and contrast of the output image.
+![Python Version](https://img.shields.io/badge/Python-3.11-blue)
+![GDAL Version](https://img.shields.io/badge/GDAL-3.4.3-brightgreen)
 
 
+### Image Conversion Options 📸✨
 
-### Usage
+Elevate your TIFF images to beautiful JPEGs with these fine-tuned options:
 
-
-
-To use the script, run the following command in the terminal:
-
-
-
-```python tiff_to_jpeg_converter_and_cropper.py```
+  * 🔍 Data Type - -ot Byte
+     - Embrace precision with 8-bit unsigned integers. This choice ensures your images are stored in a compact and efficient format, perfect for both quality and practicality.
 
 
-
-The script will prompt the user for the following inputs:
-
-
-
-* TIFF picture name: The name of the TIFF image to be converted.
-
-* 3 band TIFF image name: The name to be given to the 3-band TIFF image created by the script.
-
-* JPEG name: The name to be given to the JPEG image created by the script.
+  * 🌟 Output Format - -of JPEG
+     - Opt for JPEG, a format renowned for its balance between high-quality imaging and manageable file sizes. Ideal for web use and easy sharing!
 
 
-
-### The script will then perform the following steps:
-
-
-
-1) Convert the TIFF image to a 3-band TIFF image using the convert_tiff_to_tree_band function. The options passed to the gdal.Translate function specify that the output data type should be unsigned 16-bit integer ('-ot UInt16'), and that all 3 bands ('-b 1', '-b 1', '-b 1') should be included in the output image.
-
+   * 🔵🟢 Color Bands - -b 1, -b 2, -b 3
+    Capture the full depth of your images by including:
+       * -b 1: The grayscale band, adding depth and detail.
+       * -b 2: The green band, highlighting nature's vibrant hues.
+       * -b 3: The blue band, bringing in the cool and calm tones.
 
 
-2) Convert the 3-band TIFF image to a JPEG image using the convert_tiff_to_jpg function. The options passed to the gdal.Translate function specify that the output data type should be 8-bit unsigned integer ('-ot Byte'), and that all 3 bands ('-b 1', '-b 2', '-b 3') should be included in the output image. The output JPEG file will have a quality of 100 ('-co QUALITY=100') and the pixel values in the input image will be scaled by the specified scale factor ('65535').
+  * 💎 Pristine Quality - -co QUALITY=100
+    - Ensure top-notch clarity by setting the JPEG quality to a perfect 100%. Ideal for when every detail matters and quality cannot be compromised.
 
+  * 📐 Custom Size - -outsize 24000 16000
+    - Define your canvas with custom dimensions of 24000x16000 pixels. This setting is perfect for capturing intricate details and expansive landscapes alike.
 
+  * 🌓 Scale Adjustment - scale
+    - Fine-tune your images with scale adjustments. Modify the brightness and contrast to suit your artistic vision, bringing a personalized touch to every pixel.
 
-3) Create a folder with the same name as the output TIFF image, if it doesn't already exist, using the create_folder function.
+### 🚀 Usage
 
+Unleash the power of image conversion right from your terminal! Here’s how to get started:
+🖥️ Running the Script
 
+Fire up the magic with a simple command:
 
-4) Use the crop function to crop the JPEG image into 800x800 pixel squares and save each cropped image in the folder created in step 3.
+ ``` python tiff_to_jpeg_converter_and_cropper.py ``` 
 
+### 🧩 User Inputs
 
+* The script will playfully ask you for:
 
-5) Print the elapsed time in seconds that it took for the script to run.
+   * TIFF Picture Name: Whisper the name of your TIFF image, ready to be transformed.
+   * 3 Band TIFF Image Name: Dream up a name for your soon-to-be-created 3-band TIFF masterpiece.
+   * JPEG Name: Conjure a name for the final JPEG image, your digital canvas.
 
+### 🎨 The Transformation Journey
 
+* Watch as your images undergo a magical metamorphosis:
 
-### Output
+    * Three-Band Conversion: Using convert_tiff_to_three_band, your TIFF is reborn with three bands (-b 1, -b 1, -b 1), shining in 16-bit unsigned integer glory (-ot UInt16).
+    * JPEG Genesis: With convert_tiff_to_jpg, your image leaps into the JPEG realm. We talk 8-bit finesse (-ot Byte), a trio of bands (-b 1, -b 2, -b 3), impeccable quality (-co QUALITY=100), and a scaling adventure (scale factor 65535).
+    * Folder Creation: Like a wizard, create_folder summons a new home for your TIFF, a cozy folder bearing its name.
+    * Cropping Magic: The crop spell slices your JPEG into perfect 800x800 squares, each finding its place in the newly conjured folder.
+    * Timekeeper's Tale: As the dust settles, you’ll see the time, in seconds, it took for this enchanting journey.
 
+### 🌟 Glorious Output
 
+* Behold the treasures you’ll uncover:
 
-The script will generate the following output files:
-
-
-
-* A 3-band TIFF image with the name specified by the user.
-
-* A JPEG image with the name specified by the user.
-
-* A folder with the same name as the output TIFF image, containing cropped versions of the JPEG image.
+   * A 3-band TIFF image, proudly wearing the name you chose.
+   * A JPEG image, radiant and crisp, also named by you.
+   * A folder, echoing the name of your TIFF, filled with neatly cropped JPEG squares.
 
 
 
