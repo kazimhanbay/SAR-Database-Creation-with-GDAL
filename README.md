@@ -26,7 +26,7 @@ The script requires the following packages to be installed:
 * `time`: This package provides functions for working with time, such as measuring elapsed time.
 
 ![Python Version](https://img.shields.io/badge/Python-3.11-blue)
-![GDAL Version](https://img.shields.io/badge/GDAL-3.4.3-brightgreen)
+![GDAL Version](https://img.shields.io/badge/GDAL-3.8.2-brightgreen)
 
 
 ### Image Conversion Options 📸✨
@@ -100,6 +100,13 @@ Fire up the magic with a simple command:
 
 The script expects the TIFF image to be located in the current working directory. The output files will also be created in the current working directory.
 
+
+### Referance 
+
+For setup GDAL with wheel
+
+* https://github.com/cgohlke/geospatial-wheels/releases
+* https://opensourceoptions.com/how-to-install-gdal-for-python-with-pip-on-windows/
 
 
 ### License
