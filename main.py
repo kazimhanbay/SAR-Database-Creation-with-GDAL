@@ -3,9 +3,15 @@ import cv2
 import os
 import time
 
+# The function bellow for removing unnecessary warnings that came with GDAL version 3.8.2
+
+gdal.UseExceptions()
+
 ''' 
-    Python Version: 3.11
-    GDAL Version: 3.4.3
+    IMPORTANT:
+        * Before start to project please set the base_path where ever going to save output
+        * Setup GDAL with wheel pre-build 3.8.2 from https://github.com/cgohlke/geospatial-wheels/releases
+        * Setup Python version 3.11 
 '''
 
 
@@ -73,7 +79,6 @@ def timer(start_time):
 
 if __name__ == '__main__':
     start_time = time.time()
-
     base_path = "C:\\example\\example\\example\\example"
     picture_names = input("Enter the TIFF picture names separated by commas: ").split(',')
     picture_names = [name.strip() for name in picture_names]
