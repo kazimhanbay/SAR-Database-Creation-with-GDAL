@@ -117,7 +117,7 @@ MIT License
 
 
 
-Copyright (c) 2022 Taha Burak Özdemir
+Copyright (c) 2024 
 
 
 
