@@ -5,9 +5,8 @@
 This script converts a TIFF image to a 3-band TIFF image and then to a JPEG image, and crops the JPEG image into 800x800 pixel squares.
 
 <p align="center">
-  <img src="https://github.com/tburakozdemir/TIFF-to-JPEG-Converter-and-Cropper/assets/54362580/9c7bcce6-9bc4-443d-9414-b9ab58bd6d3f" style="border-radius: 50px;">
+  <img src="https://github.com/user-attachments/assets/a7581d82-68b8-4574-a58e-c0d9bd49c8b3" style="border-radius: 50px;">
 </p>
-
 
 ### Dependencies
 
