@@ -63,7 +63,7 @@ Unleash the power of image conversion right from your terminal! Here’s how to 
 
 Fire up the magic with a simple command:
 
- ``` python tiff_to_jpeg_converter_and_cropper.py ``` 
+ ``` python main.py ``` 
 
 ### 🧩 User Inputs
 
